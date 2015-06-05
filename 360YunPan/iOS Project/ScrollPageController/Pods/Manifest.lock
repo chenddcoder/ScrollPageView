@@ -1,0 +1,10 @@
+PODS:
+  - SMPageControl (1.2)
+
+DEPENDENCIES:
+  - SMPageControl (~> 1.2)
+
+SPEC CHECKSUMS:
+  SMPageControl: 922892813001cfaf059e86e6801f46a967e9ee29
+
+COCOAPODS: 0.34.4
