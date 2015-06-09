@@ -31,7 +31,7 @@
         //添加分页控制器
         pageControl=[[SMPageControl alloc]initWithFrame:CGRectMake(0, frame.size.height-40, frame.size.width, 30)];
         pageControl.backgroundColor=[UIColor clearColor];
-        [pageControl addTarget:self action:@selector(changePage:) forControlEvents:UIControlEventTouchUpInside];
+        [pageControl addTarget:self action:@selector(changePage:) forControlEvents:UIControlEventTouchDown];
         [self addSubview:pageControl];
     }
     return self;
