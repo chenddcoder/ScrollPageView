@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>1E5FA17E-A64C-4881-BCB2-9AAA961BF75C</string>
+	<key>IDESourceControlProjectName</key>
+	<string>ScrollPageController</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>EF3B0497920DD48489306DA4BFB30A27F0AEAA52</key>
+		<string>https://github.com/chenddcoder/ScrollPageView.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>ScrollPageController/ScrollPageController.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>EF3B0497920DD48489306DA4BFB30A27F0AEAA52</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/chenddcoder/ScrollPageView.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>EF3B0497920DD48489306DA4BFB30A27F0AEAA52</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>EF3B0497920DD48489306DA4BFB30A27F0AEAA52</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ScrollPageView</string>
+		</dict>
+	</array>
+</dict>
+</plist>
