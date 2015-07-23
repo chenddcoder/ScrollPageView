@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 icfcc. All rights reserved.
 //
 
-#import "ScrollPageView.h"
+#import "DDScrollPageView.h"
 #import <SMPageControl/SMPageControl.h>
-@interface ScrollPageView()<UIScrollViewDelegate>
+@interface DDScrollPageView()<UIScrollViewDelegate>
 {
     NSMutableArray * pageViews;//ScrollView中显示的所有View
     UIScrollView * scrollView;//宽高等于initWithFrame中的宽高
@@ -16,7 +16,7 @@
     SMPageControl * pageControl;//用于控制翻页，可以设定ScrollPageView自动翻页
 }
 @end
-@implementation ScrollPageView
+@implementation DDScrollPageView
 -(instancetype)initWithFrame:(CGRect)frame{
     self=[super initWithFrame:frame];
     if (self) {
@@ -35,6 +35,10 @@
         [self addSubview:pageControl];
     }
     return self;
+}
+-(void)didMoveToSuperview{
+    [super didMoveToSuperview];
+    [self reloadData];
 }
 -(void)clearScrollView{
     for (UIView * v in scrollView.subviews) {
@@ -74,7 +78,8 @@
 }
 -(void)changePage:(id)sender{
     NSInteger page = pageControl.currentPage;
-    [scrollView setContentOffset:CGPointMake(scrollViewRect.size.width * page, 0)];
+//    NSLog(@"page=%ld",(long)page);
+    [scrollView setContentOffset:CGPointMake(scrollViewRect.size.width * page, 0) animated:YES];
 }
 #pragma mark UIScrollViewDelegate
 -(void)scrollViewDidScroll:(id)pscrollView{

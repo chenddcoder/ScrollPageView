@@ -8,15 +8,15 @@
 //用于简化ScrollView与PageControll使用，仅支持横向滚动
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-@class ScrollPageView;
-@protocol ScrollPageViewDataSource<NSObject>
+@class DDScrollPageView;
+@protocol DDScrollPageViewDataSource<NSObject>
 @required
-- (NSInteger)numberOfViewsInScrollPageView:(ScrollPageView *)scrollPageView;
-- (UIView *)scrollPageView:(ScrollPageView *)scrollPageView viewForIndex:(NSInteger)index;
+- (NSInteger)numberOfViewsInScrollPageView:(DDScrollPageView *)scrollPageView;
+- (UIView *)scrollPageView:(DDScrollPageView *)scrollPageView viewForIndex:(NSInteger)index;
 @end
 
-@interface ScrollPageView : UIView
-@property (nonatomic, assign) id<ScrollPageViewDataSource> dataSource;
+@interface DDScrollPageView : UIView
+@property (nonatomic, assign) id<DDScrollPageViewDataSource> dataSource;
 -(void)reloadData;
 -(void)setPageIndicatorImage:(UIImage*)pageIndicatorImage andCurrentPageIndicatorImage:(UIImage*)currentPageIndicatorImage;
 @end

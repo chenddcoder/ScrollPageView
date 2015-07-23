@@ -15,10 +15,10 @@
 		420518991B1ED111006DE758 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 420518981B1ED111006DE758 /* Images.xcassets */; };
 		4205189C1B1ED111006DE758 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4205189A1B1ED111006DE758 /* LaunchScreen.xib */; };
 		420518A81B1ED111006DE758 /* ScrollPageControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 420518A71B1ED111006DE758 /* ScrollPageControllerTests.m */; };
-		420518B31B1ED1DD006DE758 /* ScrollPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 420518B21B1ED1DD006DE758 /* ScrollPageView.m */; };
 		420518B51B1ED991006DE758 /* privatespace.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 420518B41B1ED991006DE758 /* privatespace.jpg */; };
 		420BC2001B1F04C400E92557 /* appleDot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 420BC1FE1B1F04C400E92557 /* appleDot@2x.png */; };
 		420BC2011B1F04C400E92557 /* currentAppleDot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 420BC1FF1B1F04C400E92557 /* currentAppleDot@2x.png */; };
+		42944B0E1B60B905006CDA41 /* DDScrollPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42944B0D1B60B905006CDA41 /* DDScrollPageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,11 +45,11 @@
 		420518A11B1ED111006DE758 /* ScrollPageControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScrollPageControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		420518A61B1ED111006DE758 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		420518A71B1ED111006DE758 /* ScrollPageControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScrollPageControllerTests.m; sourceTree = "<group>"; };
-		420518B11B1ED1DD006DE758 /* ScrollPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollPageView.h; sourceTree = "<group>"; };
-		420518B21B1ED1DD006DE758 /* ScrollPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollPageView.m; sourceTree = "<group>"; };
 		420518B41B1ED991006DE758 /* privatespace.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = privatespace.jpg; sourceTree = "<group>"; };
 		420BC1FE1B1F04C400E92557 /* appleDot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appleDot@2x.png"; sourceTree = "<group>"; };
 		420BC1FF1B1F04C400E92557 /* currentAppleDot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "currentAppleDot@2x.png"; sourceTree = "<group>"; };
+		42944B0C1B60B905006CDA41 /* DDScrollPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDScrollPageView.h; sourceTree = "<group>"; };
+		42944B0D1B60B905006CDA41 /* DDScrollPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDScrollPageView.m; sourceTree = "<group>"; };
 		9B94AFEF7E7438F135399C32 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		AA9227D75E1D39019F3EE018 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D42A6F249A01F5A00BF92643 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,6 +105,7 @@
 		4205188A1B1ED111006DE758 /* ScrollPageController */ = {
 			isa = PBXGroup;
 			children = (
+				42944B0B1B60B905006CDA41 /* Classes */,
 				420BC1FE1B1F04C400E92557 /* appleDot@2x.png */,
 				420BC1FF1B1F04C400E92557 /* currentAppleDot@2x.png */,
 				420518B41B1ED991006DE758 /* privatespace.jpg */,
@@ -116,8 +117,6 @@
 				420518981B1ED111006DE758 /* Images.xcassets */,
 				4205189A1B1ED111006DE758 /* LaunchScreen.xib */,
 				4205188B1B1ED111006DE758 /* Supporting Files */,
-				420518B11B1ED1DD006DE758 /* ScrollPageView.h */,
-				420518B21B1ED1DD006DE758 /* ScrollPageView.m */,
 			);
 			path = ScrollPageController;
 			sourceTree = "<group>";
@@ -146,6 +145,15 @@
 				420518A61B1ED111006DE758 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		42944B0B1B60B905006CDA41 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				42944B0C1B60B905006CDA41 /* DDScrollPageView.h */,
+				42944B0D1B60B905006CDA41 /* DDScrollPageView.m */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		ABD544EA4473B594967C4D72 /* Pods */ = {
@@ -295,9 +303,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42944B0E1B60B905006CDA41 /* DDScrollPageView.m in Sources */,
 				420518941B1ED111006DE758 /* ViewController.m in Sources */,
 				420518911B1ED111006DE758 /* AppDelegate.m in Sources */,
-				420518B31B1ED1DD006DE758 /* ScrollPageView.m in Sources */,
 				4205188E1B1ED111006DE758 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
