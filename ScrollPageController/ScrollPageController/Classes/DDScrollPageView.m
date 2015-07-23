@@ -36,10 +36,6 @@
     }
     return self;
 }
--(void)didMoveToSuperview{
-    [super didMoveToSuperview];
-    [self reloadData];
-}
 -(void)clearScrollView{
     for (UIView * v in scrollView.subviews) {
         [v removeFromSuperview];
