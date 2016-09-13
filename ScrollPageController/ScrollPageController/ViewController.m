@@ -20,7 +20,7 @@
     DDScrollPageView * scrollPageView=[[DDScrollPageView alloc]initWithFrame:CGRectMake(0, 64, 320, 320)];
     scrollPageView.dataSource=self;
     scrollPageView.isCycle=YES;
-    scrollPageView.isAutoPlay=YES;
+//    scrollPageView.isAutoPlay=YES;
 //    scrollPageView.direction=DDScrollPageViewDirection_Vertical;
     [self.view addSubview:scrollPageView];
 //    [scrollPageView setPageIndicatorImage:[UIImage imageNamed:@"currentAppleDot"] andCurrentPageIndicatorImage:[UIImage imageNamed:@"appleDot"]];
@@ -37,11 +37,20 @@
 }
 -(UIView *)scrollPageView:(DDScrollPageView *)scrollPageView viewForIndex:(NSInteger)index{
     UIView * v=[[UIView alloc]initWithFrame:CGRectMake(0,0,scrollPageView.frame.size.width,scrollPageView.frame.size.height)];
+    UIButton * button=[UIButton buttonWithType:UIButtonTypeSystem];
+    button.frame=CGRectMake(10, 10, 100, 40);
+    button.backgroundColor=[UIColor orangeColor];
+    [button setTitle:@"测试" forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [v addSubview:button];
     if (index==0) {
         v.backgroundColor=[UIColor colorWithRed:arc4random()%255/255.0 green:arc4random()%255/255.0 blue:arc4random()%255/255.0 alpha:1];
     }else{
         v.backgroundColor=v.backgroundColor=[UIColor colorWithRed:arc4random()%255/255.0 green:arc4random()%255/255.0 blue:arc4random()%255/255.0 alpha:1];
     }
     return v;
+}
+-(void)buttonClicked:(id)sender{
+    NSLog(@"click:%p",sender);
 }
 @end

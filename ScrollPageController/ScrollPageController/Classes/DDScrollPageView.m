@@ -10,12 +10,15 @@
 #import <SMPageControl/SMPageControl.h>
 @interface DDScrollPageView()<UIScrollViewDelegate>
 {
-    NSMutableArray * pageViews;//ScrollView中显示的所有View
     CGRect scrollViewRect;
     dispatch_source_t timer;//定时器用于自动滚页
 }
 @property (nonatomic, strong) UIScrollView * scrollView;//宽高等于initWithFrame中的宽高
 @property (nonatomic, strong) SMPageControl * pageControl;//用于控制翻页，可以设定ScrollPageView自动翻页
+@property (nonatomic, strong) UIImageView * leftImageView;//缓存最后一张View的图片
+@property (nonatomic, strong) UIView * firstView;//第一张图片
+@property (nonatomic, strong) UIView * lastView;//最后一张图片
+@property (nonatomic, strong) UIImageView * rightImageView;//缓存第一张View的图片
 @end
 @implementation DDScrollPageView
 -(instancetype)initWithFrame:(CGRect)frame{
@@ -135,9 +138,14 @@
         }
     }
 }
--(UIView*)duplicate:(UIView *)view{
-    NSData * tempArchive = [NSKeyedArchiver archivedDataWithRootObject:view];
-    return [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
+-(UIImage *)imageFromView:(UIView *)view{
+    CGSize size = view.bounds.size;
+    //参数1:表示区域大小 参数2:如果需要显示半透明效果,需要传NO,否则传YES 参数3:屏幕密度
+    UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage*image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
 }
 -(void)addViewToScrollView:(UIView*)view ForIndex:(NSInteger)index{
     //根据index,direction,isCycle偏移view，如果isCycle是YES则需要添加额外的2个View
@@ -146,16 +154,20 @@
     CGSize cycleOffsetSize=CGSizeMake(0, 0);
     if (_isCycle) {
         cycleOffsetSize=scrollViewRect.size ;
-        if (index==0) {//当时第一个时放到最后一个
-            UIView * dupView=[self duplicate:view];
-            CGRect rect=dupView.frame;
-            dupView.frame=CGRectMake(rect.origin.x+scrollViewRect.size.width*(_pageControl.numberOfPages+1)*isHorizontal, rect.origin.y+scrollViewRect.size.height*(_pageControl.numberOfPages+1)*isVertical, rect.size.width, rect.size.height);
-            [_scrollView addSubview:dupView];
+        if (index==0) {//当是第一个时
+            _firstView=view;
+            _rightImageView=[[UIImageView alloc] initWithFrame:view.frame];
+            _rightImageView.image=[self imageFromView:view];
+            CGRect rect=_rightImageView.frame;
+            _rightImageView.frame=CGRectMake(rect.origin.x+scrollViewRect.size.width*(_pageControl.numberOfPages+1)*isHorizontal, rect.origin.y+scrollViewRect.size.height*(_pageControl.numberOfPages+1)*isVertical, rect.size.width, rect.size.height);
+            [_scrollView addSubview:_rightImageView];
 //            NSLog(@"添加额外页面0");
 //            NSLog(@"frame=%@",NSStringFromCGRect(dupView.frame));
         }else if(index==_pageControl.numberOfPages-1){//最后一个放到第一个
-            UIView * dupView=[self duplicate:view];
-            [_scrollView addSubview:dupView];
+            _lastView=view;
+            _leftImageView=[[UIImageView alloc] initWithFrame:view.frame];
+            _leftImageView.image=[self imageFromView:view];
+            [_scrollView addSubview:_leftImageView];
 //            NSLog(@"添加额外页面$");
 //            NSLog(@"frame=%@",NSStringFromCGRect(dupView.frame));
         }
@@ -180,6 +192,12 @@
     CGSize cycleOffsetSize=CGSizeMake(0, 0);
     if (_isCycle) {
         cycleOffsetSize=scrollViewRect.size;
+        ////当显示第一张和最后一张view的时候复制图片
+        if (pageIndex==0) {
+            _rightImageView.image=[self imageFromView:_firstView];
+        }else if(pageIndex==_pageControl.numberOfPages-1){
+            _leftImageView.image=[self imageFromView:_lastView];
+        }
     }
     if (_direction==DDScrollPageViewDirection_Horizontal) {
         [_scrollView setContentOffset:CGPointMake(scrollViewRect.size.width * pageIndex+cycleOffsetSize.width, 0) animated:YES];
@@ -204,6 +222,12 @@
             page=0;
             _scrollView.contentOffset=CGPointMake(_scrollView.contentOffset.x-scrollViewRect.size.width*isHorizontal*_pageControl.numberOfPages, _scrollView.contentOffset.y-scrollViewRect.size.height*isVertical*_pageControl.numberOfPages);
         }else{
+            //当显示第一张和最后一张view的时候复制图片
+            if (page==1) {
+                _rightImageView.image=[self imageFromView:_firstView];
+            }else if(page==_pageControl.numberOfPages){
+                _leftImageView.image=[self imageFromView:_lastView];
+            }
             page--;
         }
     }
