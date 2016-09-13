@@ -14,8 +14,17 @@
 - (NSInteger)numberOfViewsInScrollPageView:(DDScrollPageView *)scrollPageView;
 - (UIView *)scrollPageView:(DDScrollPageView *)scrollPageView viewForIndex:(NSInteger)index;
 @end
-
+typedef enum : NSUInteger {
+    DDScrollPageViewDirection_Horizontal,
+    DDScrollPageViewDirection_Vertical,
+} DDScrollPageViewDirection;
 @interface DDScrollPageView : UIView
+/**是否循环，默认是NO*/
+@property (nonatomic, assign) BOOL isCycle;
+/**是否自动播放，默认是NO*/
+@property (nonatomic, assign) BOOL isAutoPlay;
+/**设置滚动方向，默认是DDScrollPageView_HorizontalDirection*/
+@property (nonatomic, assign) DDScrollPageViewDirection direction;
 @property (nonatomic, assign) id<DDScrollPageViewDataSource> dataSource;
 -(void)reloadData;
 -(void)setPageIndicatorImage:(UIImage*)pageIndicatorImage andCurrentPageIndicatorImage:(UIImage*)currentPageIndicatorImage;

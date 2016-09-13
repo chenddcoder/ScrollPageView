@@ -19,8 +19,12 @@
     // Do any additional setup after loading the view, typically from a nib.
     DDScrollPageView * scrollPageView=[[DDScrollPageView alloc]initWithFrame:CGRectMake(0, 64, 320, 320)];
     scrollPageView.dataSource=self;
+    scrollPageView.isCycle=YES;
+    scrollPageView.isAutoPlay=YES;
+//    scrollPageView.direction=DDScrollPageViewDirection_Vertical;
     [self.view addSubview:scrollPageView];
-    [scrollPageView setPageIndicatorImage:[UIImage imageNamed:@"appleDot"] andCurrentPageIndicatorImage:[UIImage imageNamed:@"currentAppleDot"]];
+//    [scrollPageView setPageIndicatorImage:[UIImage imageNamed:@"currentAppleDot"] andCurrentPageIndicatorImage:[UIImage imageNamed:@"appleDot"]];
+    [scrollPageView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -29,14 +33,14 @@
 }
 #pragma mark ScrollPageViewDataSource
 -(NSInteger)numberOfViewsInScrollPageView:(DDScrollPageView *)scrollPageView{
-    return 2;
+    return 3;
 }
 -(UIView *)scrollPageView:(DDScrollPageView *)scrollPageView viewForIndex:(NSInteger)index{
     UIView * v=[[UIView alloc]initWithFrame:CGRectMake(0,0,scrollPageView.frame.size.width,scrollPageView.frame.size.height)];
     if (index==0) {
-        v.backgroundColor=[UIColor greenColor];
+        v.backgroundColor=[UIColor colorWithRed:arc4random()%255/255.0 green:arc4random()%255/255.0 blue:arc4random()%255/255.0 alpha:1];
     }else{
-        v.backgroundColor=[UIColor blueColor];
+        v.backgroundColor=v.backgroundColor=[UIColor colorWithRed:arc4random()%255/255.0 green:arc4random()%255/255.0 blue:arc4random()%255/255.0 alpha:1];
     }
     return v;
 }
