@@ -12,10 +12,10 @@
 {
     NSMutableArray * pageViews;//ScrollView中显示的所有View
     CGRect scrollViewRect;
+    dispatch_source_t timer;//定时器用于自动滚页
 }
 @property (nonatomic, strong) UIScrollView * scrollView;//宽高等于initWithFrame中的宽高
 @property (nonatomic, strong) SMPageControl * pageControl;//用于控制翻页，可以设定ScrollPageView自动翻页
-@property (nonatomic, strong) dispatch_source_t timer;//定时器用于自动滚页
 @end
 @implementation DDScrollPageView
 -(instancetype)initWithFrame:(CGRect)frame{
@@ -38,16 +38,16 @@
 }
 -(void)setIsAutoPlay:(BOOL)isAutoPlay{
     _isAutoPlay=isAutoPlay;
-    if (_timer) {
-        dispatch_cancel(_timer);
-        _timer=nil;
+    if (timer) {
+        dispatch_cancel(timer);
+        timer=nil;
     }
     if (_isAutoPlay) {
         // 获得队列
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         
         // 创建一个定时器(dispatch_source_t本质还是个OC对象)
-        _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+        timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
         
         // 设置定时器的各种属性（几时开始任务，每隔多长时间执行一次）
         // GCD的时间参数，一般是纳秒（1秒 == 10的9次方纳秒）
@@ -55,11 +55,11 @@
         // dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC) 比当前时间晚3秒
         dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
         uint64_t interval = (uint64_t)(3.0 * NSEC_PER_SEC);
-        dispatch_source_set_timer(self.timer, start, interval, 0);
+        dispatch_source_set_timer(timer, start, interval, 0);
         
         // 设置回调
-        dispatch_source_set_event_handler(self.timer, ^{
-            NSLog(@"------------%@", [NSThread currentThread]);
+        dispatch_source_set_event_handler(timer, ^{
+//            NSLog(@"------------%@", [NSThread currentThread]);
             if (_pageControl) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     //为兼容isAutoCycle，将currentPage定为numberOfPages+1，当超过numberOfPages置为0
@@ -71,7 +71,7 @@
             }
         });
         // 启动定时器
-        dispatch_resume(self.timer);
+        dispatch_resume(timer);
     }
 }
 -(UIScrollView *)scrollView{
