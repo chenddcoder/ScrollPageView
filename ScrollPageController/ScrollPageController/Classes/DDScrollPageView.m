@@ -93,7 +93,7 @@
 }
 -(void)setIsShowPageIcon:(BOOL)isShowPageIcon{
     _isShowPageIcon=isShowPageIcon;
-    _pageControl.hidden=!_isShowPageIcon;
+    self.pageControl.hidden=!_isShowPageIcon;
 }
 -(SMPageControl *)pageControl{
     if (_pageControl==nil) {
