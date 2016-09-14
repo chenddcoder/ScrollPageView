@@ -23,6 +23,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) BOOL isCycle;
 /**是否自动播放，默认是NO*/
 @property (nonatomic, assign) BOOL isAutoPlay;
+/**是否显示页面导航图标*/
+@property (nonatomic, assign) BOOL isShowPageIcon;
 /**设置滚动方向，默认是DDScrollPageView_HorizontalDirection*/
 @property (nonatomic, assign) DDScrollPageViewDirection direction;
 @property (nonatomic, assign) id<DDScrollPageViewDataSource> dataSource;

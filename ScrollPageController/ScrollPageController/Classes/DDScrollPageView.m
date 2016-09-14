@@ -27,6 +27,7 @@
         self.frame=frame;
         _isCycle=NO;
         _isAutoPlay=NO;
+        _isShowPageIcon=YES;
         _direction=DDScrollPageViewDirection_Horizontal;
         [self addSubview:self.scrollView];
         [self addSubview:self.pageControl];
@@ -89,6 +90,10 @@
         scrollViewRect=self.frame;
     }
     return _scrollView;
+}
+-(void)setIsShowPageIcon:(BOOL)isShowPageIcon{
+    _isShowPageIcon=isShowPageIcon;
+    _pageControl.hidden=!_isShowPageIcon;
 }
 -(SMPageControl *)pageControl{
     if (_pageControl==nil) {
