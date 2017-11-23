@@ -25,6 +25,10 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) BOOL isAutoPlay;
 /**是否显示页面导航图标*/
 @property (nonatomic, assign) BOOL isShowPageIcon;
+/**pageControl距离底部的距离,默认为-40*/
+@property (nonatomic, assign) float pageControlOffsetY;
+/**设置定时器间隔*/
+@property (nonatomic, assign) NSTimeInterval interval;
 /**设置滚动方向，默认是DDScrollPageView_HorizontalDirection*/
 @property (nonatomic, assign) DDScrollPageViewDirection direction;
 @property (nonatomic, assign) id<DDScrollPageViewDataSource> dataSource;

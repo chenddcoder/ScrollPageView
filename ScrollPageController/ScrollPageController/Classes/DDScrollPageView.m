@@ -28,11 +28,27 @@
         _isCycle=NO;
         _isAutoPlay=NO;
         _isShowPageIcon=YES;
+        _pageControlOffsetY=-40;
+        _interval=1.0;
         _direction=DDScrollPageViewDirection_Horizontal;
         [self addSubview:self.scrollView];
         [self addSubview:self.pageControl];
     }
     return self;
+}
+-(void)dealloc{
+//    NSLog(@"dealloc");
+}
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    [super willMoveToSuperview:newSuperview];
+    if (newSuperview) {
+        if (_isAutoPlay) {
+            [self createTimer];
+        }
+    } else {
+        [self fireTimer];
+    }
 }
 -(void)setDirection:(DDScrollPageViewDirection)direction{
     //外部设置滚动方向
@@ -42,11 +58,12 @@
 }
 -(void)setIsAutoPlay:(BOOL)isAutoPlay{
     _isAutoPlay=isAutoPlay;
-    if (timer) {
-        dispatch_cancel(timer);
-        timer=nil;
-    }
     if (_isAutoPlay) {
+        [self createTimer];
+    }
+}
+-(void)createTimer{
+    if (!timer) {
         // 获得队列
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         
@@ -57,13 +74,13 @@
         // GCD的时间参数，一般是纳秒（1秒 == 10的9次方纳秒）
         // 何时开始执行第一个任务
         // dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC) 比当前时间晚3秒
-        dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
+        dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.interval * NSEC_PER_SEC));
         uint64_t interval = (uint64_t)(3.0 * NSEC_PER_SEC);
         dispatch_source_set_timer(timer, start, interval, 0);
         
         // 设置回调
         dispatch_source_set_event_handler(timer, ^{
-//            NSLog(@"------------%@", [NSThread currentThread]);
+            //            NSLog(@"------------%@", [NSThread currentThread]);
             if (_pageControl) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     //为兼容isAutoCycle，将currentPage定为numberOfPages+1，当超过numberOfPages置为0
@@ -77,6 +94,16 @@
         // 启动定时器
         dispatch_resume(timer);
     }
+}
+-(void)fireTimer{
+    if (timer) {
+        dispatch_cancel(timer);
+        timer=nil;
+    }
+}
+-(void)setPageControlOffsetY:(float)pageControlOffsetY{
+    _pageControlOffsetY=pageControlOffsetY;
+    self.pageControl.frame=CGRectMake(0, self.frame.size.height+self.pageControlOffsetY, self.frame.size.width, 30);
 }
 -(UIScrollView *)scrollView{
     if (_scrollView==nil) {
@@ -98,7 +125,7 @@
 -(SMPageControl *)pageControl{
     if (_pageControl==nil) {
         //添加分页控制器
-        _pageControl=[[SMPageControl alloc]initWithFrame:CGRectMake(0, self.frame.size.height-40, self.frame.size.width, 30)];
+        _pageControl=[[SMPageControl alloc]initWithFrame:CGRectMake(0, self.frame.size.height+self.pageControlOffsetY, self.frame.size.width, 30)];
         _pageControl.backgroundColor=[UIColor clearColor];
         _pageControl.tapBehavior=SMPageControlTapBehaviorJump;
         _pageControl.hidesForSinglePage=YES;
@@ -237,6 +264,18 @@
         }
     }
     _pageControl.currentPage=page;
+    scrollView.userInteractionEnabled=YES;
+    if (self.isAutoPlay) {
+        [self createTimer];
+    }
 //    NSLog(@"scroll.....");
+}
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    [self fireTimer];
+}
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    if (decelerate) {
+        scrollView.userInteractionEnabled=NO;
+    }
 }
 @end
