@@ -69,7 +69,7 @@
         
         // 创建一个定时器(dispatch_source_t本质还是个OC对象)
         timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-        
+        dispatch_source_t itimer = timer;
         // 设置定时器的各种属性（几时开始任务，每隔多长时间执行一次）
         // GCD的时间参数，一般是纳秒（1秒 == 10的9次方纳秒）
         // 何时开始执行第一个任务
@@ -77,19 +77,24 @@
         dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.interval * NSEC_PER_SEC));
         uint64_t interval = (uint64_t)(3.0 * NSEC_PER_SEC);
         dispatch_source_set_timer(timer, start, interval, 0);
-        
+        __weak typeof(self) weakSelf = self;
         // 设置回调
         dispatch_source_set_event_handler(timer, ^{
-            //            NSLog(@"------------%@", [NSThread currentThread]);
             if (_pageControl) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    //为兼容isAutoCycle，将currentPage定为numberOfPages+1，当超过numberOfPages置为0
-                    NSInteger newPage=_pageControl.currentPage+1;
-                    _pageControl.currentPage= newPage%_pageControl.numberOfPages;
-                    [self setContentOffsetForChangePage:newPage];
-                });
-                
+                if (!weakSelf) {
+                    dispatch_source_cancel(itimer);
+                }else{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        //为兼容isAutoCycle，将currentPage定为numberOfPages+1，当超过numberOfPages置为0
+                        NSInteger newPage=_pageControl.currentPage+1;
+                        _pageControl.currentPage= newPage%_pageControl.numberOfPages;
+                        [weakSelf setContentOffsetForChangePage:newPage];
+                    });
+                }
             }
+        });
+        dispatch_source_set_cancel_handler(timer, ^{
+            dispatch_release(itimer);
         });
         // 启动定时器
         dispatch_resume(timer);
@@ -97,7 +102,7 @@
 }
 -(void)fireTimer{
     if (timer) {
-        dispatch_cancel(timer);
+        dispatch_source_cancel(timer);
         timer=nil;
     }
 }
