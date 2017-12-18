@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "DDScrollPageView"
-  s.version      = "1.0.9"
+  s.version      = "1.1.0"
   s.summary      = "it is use to create a ScrollPageView,can cycleautoplay,easy to use"
   s.homepage     = "https://github.com/chenddcoder/ScrollPageView"
   s.license      = "MIT"
